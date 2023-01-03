@@ -1,0 +1,115 @@
+<div class="container" *ngIf="displayContent[0].display">
+  <div class="row-lg mt-4 p-2 img-thumbnail">
+    <div class="col">
+      <div class="row">
+        <div class="col text-center">
+          <h2>Stock Tracker</h2>
+          <h2 class="fs-6 fw-light">
+            Enter the symbol of a stock to track (i.e. AAPL,TSLA,GOOGL..)
+          </h2>
+        </div>
+      </div>
+      <div class="row p-3 d-flex">
+        <div class="col-sm-4 mt-1 m-auto">
+          <input type="text" [(ngModel)]="InputFieldEnter" placeholder="Please Enter stock..." class="form-control" />
+        </div>
+        <div class="col-sm-4 mt-1 m-auto">
+          <button type="button" (click)="getQuote()" class="btn btn-primary form-control">
+            Track Stock
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="getQuoteLoader" class="row text-center mt-2">
+    <div class="col d-flex text-center">
+      <p class="fs-6 m-auto p-2 img-thumbnail fw-light">
+        Updating data Please Wait a short moment...
+      </p>
+    </div>
+  </div>
+  <div class="row d-flex justify-content-center mt-2">
+    <div class="col-md-5 m-1 img-thumbnail" *ngFor="let data of stockData; let i = index">
+      <div class="row d-flex">
+        <div class="col-12">
+          <div class="row m-auto">
+            <div class="col-6">
+              <h4>{{ data.name + ' (Inc)' | uppercase }}</h4>
+            </div>
+            <div class="col-6 text-end">
+              <h4 class="btn" (click)="removeElement(i)">x</h4>
+            </div>
+            <hr />
+            <div class="col-md-8">
+              <ol class="list-group">
+                <li class="
+                    list-group-item
+                    d-flex
+                    justify-content-between
+                    align-items-start
+                  ">
+                  <div class="ms-2 me-auto">
+                    <span>Change today:-</span>
+                  </div>
+                  <span class="badge bg-black rounded-pill">{{
+                    data.dp | percent
+                    }}</span>
+                </li>
+                <li class="
+                    list-group-item
+                    d-flex
+                    justify-content-between
+                    align-items-start
+                  ">
+                  <div class="ms-2 me-auto">
+                    <span>Opening price:-</span>
+                  </div>
+                  <span class="badge bg-black rounded-pill">{{
+                    data.o | currency
+                    }}</span>
+                </li>
+                <li class="
+                    list-group-item
+                    d-flex
+                    justify-content-between
+                    align-items-start
+                  ">
+                  <div class="ms-2 me-auto">
+                    <span>Current price:-</span>
+                  </div>
+                  <span class="badge bg-black rounded-pill">{{
+                    data.c | currency
+                    }}</span>
+                </li>
+                <li class="
+                    list-group-item
+                    d-flex
+                    justify-content-between
+                    align-items-start
+                  ">
+                  <div class="ms-2 me-auto">
+                    <span>High price:-</span>
+                  </div>
+                  <span class="badge bg-black rounded-pill">{{
+                    data.h | currency
+                    }}</span>
+                </li>
+              </ol>
+            </div>
+            <div class="col-sm-4 m-auto">
+              <div class="col-12 text-center">
+                <i *ngIf="data.dp > 0" class="bi fw-bold text-primary bi-arrow-up fs-1"></i>
+                <i *ngIf="data.dp < 0" class="bi fw-bold text-danger bi-arrow-down fs-1"></i>
+              </div>
+              <div class="col-12 text-center">
+                <h3 [routerLink]="'sentiment/' + data.name" class="fs-6 fw-light link link-primary">
+                  Go to social sentiment details >
+                </h3>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
